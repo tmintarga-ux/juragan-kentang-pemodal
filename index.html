@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1D2320">
+<meta name="robots" content="noindex, nofollow">
+<title>Dashboard Pemodal — Juragan Kentang</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Juragan Kentang">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="application-name" content="Juragan Kentang">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F5F0;--card:#FFFFFF;--ink:#1D2320;--muted:#5B625C;--line:#E4E2DA;--soft:#F0EEE7;--acc:#23683F;--neg:#B4400F;--warn:#7A4E00;--warnbg:#FDF3DC;--negbg:#FDF1EA;--okbg:#E8F1EA}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.45}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 14px 64px}
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.brand{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.asof{font-size:13px;color:var(--muted)}
+.btn{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--ink);background:var(--ink);color:#fff;font:600 14px Inter,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn svg{width:18px;height:18px}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:6px;overflow-x:auto;padding:8px 0 10px;margin:0 -14px 8px;padding-left:14px;padding-right:14px;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{flex:0 0 auto;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #DAD8CF;background:#fff;color:var(--ink);font:500 14px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+section.page{display:none;flex-direction:column;gap:16px}
+section.page.on{display:flex}
+h1{margin:4px 0 0;font:700 24px/1.2 "Space Grotesk",Inter,sans-serif}
+h2{margin:0;font-size:17px;font-weight:700}
+h3{margin:0;font-size:15px;font-weight:700}
+.sub{margin:4px 0 0;color:var(--muted);font-size:14px}
+.banner{background:var(--ink);color:#F6F5F0;border-radius:16px;padding:16px 18px;font-size:15.5px;line-height:1.5}
+.banner b.n{color:#FDBA8C}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tile .k{font-size:13px;font-weight:600;color:var(--muted)}
+.tile .v{font:700 28px/1.1 "Space Grotesk",Inter,sans-serif}
+.tile .v.big{font-size:34px;color:var(--acc)}
+.tile .s{font-size:13px;color:var(--muted)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--muted);font-weight:600;padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:13px}
+td{padding:10px 8px;border-bottom:1px solid var(--soft);white-space:nowrap}
+td.r,th.r{text-align:right}
+td.pos{color:var(--acc);font-weight:700}
+td.neg{color:var(--neg);font-weight:700}
+tr.sel{background:#EEF4EF}
+.pick{min-height:40px;padding:0 10px;border-radius:8px;border:1px solid #DAD8CF;background:#fff;font:700 14px Inter,sans-serif;color:var(--ink);cursor:pointer}
+tr.sel .pick{background:var(--ink);color:#fff;border-color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);line-height:1.55;margin:0}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.line{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:6px 0;border-bottom:1px solid var(--soft)}
+.line.tot{font-weight:700;border-bottom:0;font-size:15px}
+.kel{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) 56px;gap:8px;align-items:center;font-size:13.5px}
+.track{height:10px;background:var(--soft);border-radius:999px;overflow:hidden}
+.track i{display:block;height:10px;background:var(--muted);border-radius:999px}
+.split{height:16px;display:flex;border-radius:6px;overflow:hidden;background:#ECEAE2;gap:2px}
+.split i{display:block;height:16px}
+.alert{font-size:13px;border-radius:10px;padding:10px 12px;background:var(--warnbg);color:var(--warn)}
+.detail{border:2px solid var(--ink)}
+.dtitle{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px}
+.dtitle h2{font:700 21px "Space Grotesk",Inter,sans-serif}
+.labaBig{font:700 28px "Space Grotesk",Inter,sans-serif}
+/* diverging bar chart */
+.dv{display:flex;flex-direction:column;gap:12px}
+.dvr{display:grid;grid-template-columns:118px minmax(0,1fr) minmax(0,3fr);gap:8px;align-items:center}
+.dvr .lab{font-size:13px;font-weight:600;line-height:1.25}
+.dvr .neg{height:24px;border-right:2px solid var(--ink);display:flex;justify-content:flex-end}
+.dvr .pos{height:24px}
+.dvr .bar{height:24px;border-radius:0 5px 5px 0;background:var(--acc)}
+.dvr .neg .bar{border-radius:5px 0 0 5px;background:var(--neg)}
+.dvr .val{grid-column:2/4;font-size:13px;margin-top:-6px;padding-left:2px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills button{min-width:48px;min-height:44px;padding:0 12px;border-radius:10px;border:1px solid #DAD8CF;background:#fff;font:600 14px Inter,sans-serif;cursor:pointer;color:var(--ink)}
+.pills button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sewa{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--soft)}
+.sewa .id{font-weight:700;font-size:15px;padding-top:2px}
+.sbar{height:18px;background:#E4D9C4;border-radius:5px;overflow:hidden;min-width:20px}
+.sbar i{display:block;height:18px;background:var(--acc)}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted);align-items:center;flex-wrap:wrap}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend b{width:12px;height:12px;border-radius:3px;display:inline-block}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.umur .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.umur .hst{font:700 28px "Space Grotesk",Inter,sans-serif}
+.ubar{position:relative;height:14px;background:#ECEAE2;border-radius:999px;overflow:hidden}
+.ubar .zone{position:absolute;top:0;bottom:0;right:0;background:#F3DFA6}
+.ubar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px}
+.small{font-size:12px;color:var(--muted)}
+.print-only{display:none}
+footer{margin-top:24px;font-size:12px;color:var(--muted)}
+@media (max-width:720px){
+ .tiles{grid-template-columns:1fr 1fr}
+ .tiles .tile:first-child{grid-column:1/3}
+ .two,.grid2{grid-template-columns:1fr}
+ .tile .v{font-size:24px}.tile .v.big{font-size:30px}
+ h1{font-size:21px}
+ .dvr{grid-template-columns:96px minmax(0,1fr) minmax(0,2.6fr)}
+}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff;font-size:11.5px}
+ .wrap{max-width:none;padding:0}
+ nav.tabs,.btn,.pills,.noprint{display:none!important}
+ section.page{display:flex!important;break-before:page;gap:10px}
+ section.page:first-of-type{break-before:auto}
+ .card,.banner,tr,.sewa,.umur{break-inside:avoid}
+ .banner{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+ .banner b.n{color:var(--neg)}
+ .scroll{overflow:visible;margin:0;padding:0}
+ td,th{padding:5px 6px;white-space:normal}
+ .print-only{display:block}
+ .detail.screen{display:none}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+ <div>
+  <div class="brand">Juragan Kentang · Dashboard Pemodal</div>
+  <div class="asof" id="asof"></div>
+ </div>
+ <button class="btn noprint" id="pdfBtn" type="button" aria-label="Unduh laporan PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+  Unduh PDF
+ </button>
+</header>
+<nav class="tabs" role="tablist" aria-label="Halaman dashboard">
+ <button role="tab" data-p="laba" aria-selected="true">Untung &amp; Rugi</button>
+ <button role="tab" data-p="prod" aria-selected="false">Produktivitas</button>
+ <button role="tab" data-p="sewa" aria-selected="false">Sewa &amp; Permodalan</button>
+ <button role="tab" data-p="umur" aria-selected="false">Umur Tanam</button>
+</nav>
+<div class="card noprint" id="installHint" style="display:none;flex-direction:row;gap:12px;align-items:flex-start;margin-bottom:12px">
+ <img src="/icon-192.png" alt="" width="44" height="44" style="border-radius:10px;flex:0 0 auto">
+ <div style="flex:1;font-size:13.5px"><b>Pasang di layar utama HP</b><br><span id="installText"></span>
+  <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="installBtn" style="display:none;min-height:40px">Pasang aplikasi</button><button type="button" id="installClose" style="min-height:40px;padding:0 14px;border-radius:12px;border:1px solid #DAD8CF;background:#fff;font:600 14px Inter,sans-serif">Nanti saja</button></div>
+ </div>
+</div>
+<main id="app"></main>
+<footer id="foot"></footer>
+</div>
+<script>
+const D = {"dibuat": "2026-11-19", "sumber": "KAS BESAR DIENG - Template 2027.xlsx", "tgl_transaksi_terakhir": "2026-10-18", "kas": {"saldo": 10780069.95876289, "masuk": 308233803.97938144, "keluar": 297453734.02061856, "sheets": ["Kas 2026", "Kas 2027-S1"]}, "grup": {"1": "Olah lahan & tanam", "2": "Perawatan: pestisida, pupuk daun, tabur", "3": "Matun", "4": "Panen", "5": "Lain-lain"}, "musim": [{"kode": "L1 (Put4)", "lahan": "L1", "komoditas": "Kentang", "jual": [{"label": "Setoran kas lahan 1", "nilai": 41315577.0, "tgl": "2026-02-21"}], "jual_total": 41315577.0, "jual_sementara": null, "kel": [0.0, 0.0, 0.0, 0.0, 427100.0], "biaya": 427100.0, "modal": 427100.0, "modal_manual": false, "sewa_musim": 5000000.0, "sewa_bersama": false, "tanpa_sewa": false, "laba": null, "roi": null, "luas": 23, "cicilan_sewa": 0.0, "tgl_awal": "2026-02-21", "tgl_akhir": "2026-02-21", "status": "diabaikan", "catatan": "Sebagian biaya terjadi sebelum Kas Besar dimulai (Feb 2026)", "bagi": 0.0, "ditahan": null}, {"kode": "L4 (Put2)", "lahan": "L4", "komoditas": "Kentang", "jual": [{"label": "Setoran lahan 4", "nilai": 14402000.0, "tgl": "2026-04-14"}, {"label": "Setoran lahan 4", "nilai": 28058665.97938144, "tgl": "2026-04-27"}], "jual_total": 42460665.97938144, "jual_sementara": null, "kel": [6730000.0, 2837000.0, 0.0, 4076000.0, 462500.0], "biaya": 14105500.0, "modal": 14105500.0, "modal_manual": false, "sewa_musim": 15166666.666666666, "sewa_bersama": false, "tanpa_sewa": false, "laba": null, "roi": null, "luas": 28, "cicilan_sewa": 0.0, "tgl_awal": "2026-02-25", "tgl_akhir": "2026-05-29", "status": "diabaikan", "catatan": "Sebagian biaya terjadi sebelum Kas Besar dimulai (Feb 2026)", "bagi": 0.0, "ditahan": null}, {"kode": "L5 (Put2)", "lahan": "L5", "komoditas": "Kentang", "jual": [{"label": "Setoran lahan 5", "nilai": 32205361.0, "tgl": "2026-06-07"}, {"label": "Setoran lahan 5", "nilai": 993000.0, "tgl": "2026-06-10"}], "jual_total": 33198361.0, "jual_sementara": null, "kel": [220000.0, 9199000.0, 1300000.0, 2665000.0, 499000.0], "biaya": 13883000.0, "modal": 13883000.0, "modal_manual": false, "sewa_musim": 2833333.3333333335, "sewa_bersama": false, "tanpa_sewa": false, "laba": null, "roi": null, "luas": 18, "cicilan_sewa": 8000000.0, "tgl_awal": "2026-02-25", "tgl_akhir": "2026-06-01", "status": "diabaikan", "catatan": "Sebagian biaya terjadi sebelum Kas Besar dimulai (Feb 2026)", "bagi": 0.0, "ditahan": null}, {"kode": "L1 (Put5)", "lahan": "L1", "komoditas": "Wortel", "jual": [{"label": "Wortel", "nilai": 20000000.0, "tgl": "2026-06-09"}, {"label": "Wortel", "nilai": 3000000.0, "tgl": "2026-07-13"}], "jual_total": 23000000.0, "jual_sementara": null, "kel": [5190000.0, 440000.0, 0.0, 0.0, 806000.0], "biaya": 6436000.0, "modal": 6436000.0, "modal_manual": false, "sewa_musim": 5000000.0, "sewa_bersama": false, "tanpa_sewa": false, "laba": 11564000.0, "roi": 1.0111927247289263, "luas": 23, "cicilan_sewa": 5000000.0, "tgl_awal": "2026-02-25", "tgl_akhir": "2026-06-09", "status": "selesai", "catatan": "", "bagi": 0.0, "ditahan": 11564000.0}, {"kode": "L3 (Put4)", "lahan": "L3", "komoditas": "Kentang", "jual": [{"label": "Penjualan  Kentang  Besar", "nilai": 43176000.00000001, "tgl": "2026-08-19"}, {"label": "Penjualan Pencetan", "nilai": 2700000.0, "tgl": "2026-08-19"}], "jual_total": 45876000.00000001, "jual_sementara": null, "kel": [4595000.0, 2260000.0, 660000.0, 1895000.0, 1388000.0], "biaya": 10798000.0, "modal": 10798000.0, "modal_manual": false, "sewa_musim": 0, "sewa_bersama": true, "tanpa_sewa": false, "laba": 35078000.00000001, "roi": 3.2485645489905544, "luas": 12, "cicilan_sewa": 0.0, "tgl_awal": "2026-03-15", "tgl_akhir": "2026-08-19", "status": "selesai", "catatan": "", "bagi": 4957876.1830484355, "bagi_dari": "L4 (Put3) + L3 (Put4)", "ditahan": 30120123.816951573}, {"kode": "L2 (Put3)", "lahan": "L2", "komoditas": "Kentang", "jual": [{"label": "Kentang besar 10.876 kg × Rp 10.000", "nilai": 108760000, "tgl": null}], "jual_total": 108760000, "jual_sementara": "Dari sheet Produktivitas; belum tercatat di Kas. Otomatis diganti begitu penjualan L2 (Put3) dicatat di Kas.", "kel": [19213000.0, 1131000.0, 2100000.0, 260000.0, 2049000.0], "biaya": 24753000.0, "modal": 24753000.0, "modal_manual": false, "sewa_musim": 0, "sewa_bersama": true, "tanpa_sewa": false, "laba": 84007000.0, "roi": 3.3938108512099543, "luas": 33, "cicilan_sewa": 0.0, "tgl_awal": "2026-03-13", "tgl_akhir": "2026-09-15", "status": "selesai", "catatan": "", "bagi": 0.0, "ditahan": 84007000.0}, {"kode": "L4 (Put3)", "lahan": "L4", "komoditas": "Kentang", "jual": [{"label": "Penjualan  Kentang  Besar", "nilai": 90804000.0, "tgl": "2026-08-19"}, {"label": "Penjualan Pencetan", "nilai": 990000.0, "tgl": "2026-08-19"}, {"label": "Bibit G4", "nilai": 11050000.0, "tgl": "2026-09-15"}], "jual_total": 102844000.0, "jual_sementara": null, "kel": [7894000.0, 15523000.0, 2800000.0, 4378000.0, 4632000.0], "biaya": 35227000.0, "modal": 35227000.0, "modal_manual": false, "sewa_musim": 15166666.666666666, "sewa_bersama": false, "tanpa_sewa": false, "laba": 52450333.333333336, "roi": 1.0408120067997964, "luas": 28, "cicilan_sewa": 20000000.0, "tgl_awal": "2026-04-20", "tgl_akhir": "2026-10-13", "status": "selesai", "catatan": "", "bagi": 7413257.8375701215, "bagi_dari": "L4 (Put3) + L3 (Put4)", "ditahan": 45037075.49576321}, {"kode": "L5 (Put3)", "lahan": "L5", "komoditas": "Kentang", "jual": [{"label": "Penjualan kentang", "nilai": 17239200.0, "tgl": "2026-10-17"}], "jual_total": 17239200.0, "jual_sementara": null, "kel": [8691500.0, 11835000.0, 840000.0, 1900000.0, 2508000.0], "biaya": 25774500.0, "modal": 25774500.0, "modal_manual": false, "sewa_musim": 2833333.3333333335, "sewa_bersama": false, "tanpa_sewa": false, "laba": -11368633.333333334, "roi": -0.39739581816169234, "luas": 18, "cicilan_sewa": 5000000.0, "tgl_awal": "2026-06-02", "tgl_akhir": "2026-10-18", "status": "selesai", "catatan": "", "bagi": 0.0, "ditahan": -11368633.333333334}, {"kode": "L6 (Put1)", "lahan": "L6", "komoditas": "Kentang", "jual": [], "jual_total": 0, "jual_sementara": null, "kel": [28576000.0, 5045000.0, 1360000.0, 80000.0, 3896500.0], "biaya": 38957500.0, "modal": 38957500.0, "modal_manual": false, "sewa_musim": 0, "sewa_bersama": false, "tanpa_sewa": true, "laba": null, "roi": null, "luas": 35, "cicilan_sewa": 0.0, "tgl_awal": "2026-06-09", "tgl_akhir": "2026-10-11", "status": "berjalan", "catatan": "", "bagi": 0.0, "ditahan": null}, {"kode": "L4 (Put4)", "lahan": "L4", "komoditas": "Kentang, Wortel", "jual": [], "jual_total": 0, "jual_sementara": null, "kel": [27675500.0, 0.0, 0.0, 0.0, 734000.0], "biaya": 28409500.0, "modal": 28409500.0, "modal_manual": false, "sewa_musim": 15166666.666666666, "sewa_bersama": false, "tanpa_sewa": false, "laba": null, "roi": null, "luas": 28, "cicilan_sewa": 0.0, "tgl_awal": "2026-08-05", "tgl_akhir": "2026-08-19", "status": "berjalan", "catatan": "", "bagi": 0.0, "ditahan": null}, {"kode": "L3 (Put5)", "lahan": "L3", "komoditas": "Kentang", "jual": [], "jual_total": 0, "jual_sementara": null, "kel": [3087000.0, 0.0, 700000.0, 0.0, 0.0], "biaya": 3787000.0, "modal": 3787000.0, "modal_manual": false, "sewa_musim": 0, "sewa_bersama": true, "tanpa_sewa": false, "laba": null, "roi": null, "luas": 12, "cicilan_sewa": 0.0, "tgl_awal": "2026-08-15", "tgl_akhir": "2026-09-24", "status": "berjalan", "catatan": "", "bagi": 0.0, "ditahan": null}, {"kode": "L1 (Put6)", "lahan": "L1", "komoditas": "Kentang", "jual": [], "jual_total": 0, "jual_sementara": null, "kel": [10523000.0, 524000.0, 0.0, 0.0, 210000.0], "biaya": 11257000.0, "modal": 11257000.0, "modal_manual": false, "sewa_musim": 5000000.0, "sewa_bersama": false, "tanpa_sewa": false, "laba": null, "roi": null, "luas": 23, "cicilan_sewa": 0.0, "tgl_awal": "2026-08-13", "tgl_akhir": "2026-10-09", "status": "berjalan", "catatan": "", "bagi": 0.0, "ditahan": null}], "lahan": [{"kode": "L1", "luas": 23, "nilai_sewa": 50000000.0, "tahun": 5, "sd": "Mei 2029", "kontrak": "5 tahun  ( sd Mei 2029)", "musim_per_tahun": 2, "bersama": false, "sewa_per_musim": 5000000.0, "dicicil": 25000000.0, "cicilan": [5000000.0, 5000000.0, 5000000.0, 5000000.0, 5000000.0], "catatan": ""}, {"kode": "L2", "luas": 33, "nilai_sewa": 50000000.0, "tahun": 10, "sd": "Juni 2034", "kontrak": "10 tahun ( sd Juni 2034)", "musim_per_tahun": 1, "bersama": true, "sewa_per_musim": 0, "dicicil": 50000000.0, "cicilan": [], "catatan": ""}, {"kode": "L3", "luas": 12, "nilai_sewa": 14000000.0, "tahun": 10, "sd": "Okt 2034", "kontrak": "10 tahun ( sd Okt 2034)", "musim_per_tahun": 2, "bersama": true, "sewa_per_musim": 0, "dicicil": 14000000.0, "cicilan": [], "catatan": ""}, {"kode": "L4", "luas": 28, "nilai_sewa": 91000000.0, "tahun": 2, "sd": "Juli 2027", "kontrak": "2 tahun ( sd Juli 2027)", "musim_per_tahun": 3, "bersama": false, "sewa_per_musim": 15166666.666666666, "dicicil": 60000000.0, "cicilan": [20000000.0, 20000000.0, 20000000.0], "catatan": ""}, {"kode": "L5", "luas": 18, "nilai_sewa": 85000000.0, "tahun": 10, "sd": "Jan 2036", "kontrak": "10 tahun ( sd Jan 2036)", "musim_per_tahun": 3, "bersama": false, "sewa_per_musim": 2833333.3333333335, "dicicil": 18000000.0, "cicilan": [5000000.0, 8000000.0, 5000000.0], "catatan": ""}, {"kode": "L6", "luas": 35, "nilai_sewa": 93000000.0, "tahun": 5, "sd": "Jan 2032", "kontrak": "5 tahun ( sd Jan 2032)", "musim_per_tahun": 2, "bersama": false, "sewa_per_musim": 9300000.0, "dicicil": 0, "cicilan": [], "catatan": "Sewa dihitung mulai Jan 2027 (kelonggaran pemilik lahan)"}, {"kode": "L7", "luas": 40, "nilai_sewa": 50000000.0, "tahun": 5, "sd": "Jan 2032", "kontrak": "5 tahun ( sd Jan 2032)", "musim_per_tahun": 2, "bersama": false, "sewa_per_musim": 5000000.0, "dicicil": 0, "cicilan": [], "catatan": "Sewa dihitung mulai Jan 2027 (kelonggaran pemilik lahan)"}, {"kode": "L8", "luas": 40, "nilai_sewa": 200000000.0, "tahun": 4, "sd": "Jan 2030", "kontrak": "4 tahun ( sd Jan 2030)", "musim_per_tahun": 3, "bersama": false, "sewa_per_musim": 16666666.666666666, "dicicil": 0, "cicilan": [], "catatan": "Sewa dihitung mulai 2027"}], "hutang": [{"lahan": "L1", "nilai": 50000000.0, "dicicil": 20000000.0, "cicilan": [10000000.0, 10000000.0], "label": "Hutang Pemilik Lahan"}], "pemodal": [{"nama": "Abu Ibrahim", "alias": "Akhi Gores", "modal_catatan": 16000000.0, "modal": 16000000.0}, {"nama": "Abu Khudaifah", "alias": "Akhi Tunut", "modal_catatan": 16000000.0, "modal": 16000000.0}, {"nama": "Abu Ayubi", "alias": "Akhi Agung", "modal_catatan": 16000000.0, "modal": 16000000.0}, {"nama": "Abu Dzacky", "alias": "Akhi Tata", "modal_catatan": 635000000.0, "modal": 16000000.0}], "pinjaman": {"talangan": 569000000.0, "talangan_dicicil": 103000000.0, "hutang": 50000000.0, "hutang_dicicil": 20000000.0}, "modal_bersama": 64000000.0, "cicilan_tx": [{"tgl": "2026-10-18", "musim": "L5 (Put3)", "lahan": "L5", "nilai": 5000000.0, "uraian": "Sewa lahan 5"}, {"tgl": "2026-08-19", "musim": "L4 (Put3)", "lahan": "L4", "nilai": 20000000.0, "uraian": "Sewa Lahan (Pak Tata)"}, {"tgl": "2026-06-09", "musim": "L1 (Put5)", "lahan": "L1", "nilai": 5000000.0, "uraian": "Sewa lahan 1"}, {"tgl": "2026-06-01", "musim": "L5 (Put2)", "lahan": "L5", "nilai": 8000000.0, "uraian": "Sewa Lahan"}], "bagi_tx": [{"tgl": "2026-08-19", "nilai": 247422.6804123711, "musim": ["L4 (Put3)", "L3 (Put4)"], "uraian": "Pengawas 2% (Abu Ibrohim)"}, {"tgl": "2026-08-19", "nilai": 123711.3402061856, "musim": ["L4 (Put3)", "L3 (Put4)"], "uraian": "Pengawas 1% (Abu Khudaifah)"}, {"tgl": "2026-08-19", "nilai": 12000000.0, "musim": ["L4 (Put3)", "L3 (Put4)"], "uraian": "Keuntungan yang dibagi @ 3jt/orang"}], "toko": {"modal": 33267500.0, "jual": 2300000.0, "rincian_modal": [{"tgl": "2026-08-19", "uraian": "Pembelian Obat Toko UD Sumber Tani", "nilai": 1000000.0}, {"tgl": "2026-08-19", "uraian": "Pembelian Obat Toko CV  Aska Tani Jaya", "nilai": 16045000.0}, {"tgl": "2026-08-27", "uraian": "Pembelian obat", "nilai": 16222500.0}], "rincian_jual": [{"tgl": "2026-08-27", "uraian": "Penjualan Obat", "nilai": 2300000.0}]}, "tanam": [{"kode": "L1 (Put6)", "komoditas": "Kentang", "luas": 23, "tgl_tanam": "2026-09-03", "umur_min": 105, "umur_max": 130, "tgl_panen": null, "modal": null, "ket": ""}, {"kode": "L2 (Put3)", "komoditas": "Kentang", "luas": 33, "tgl_tanam": "2026-07-13", "umur_min": 105, "umur_max": 130, "tgl_panen": "2026-11-17", "modal": null, "ket": "Dipanen & dijual 17–18 Nov 2026"}, {"kode": "L3 (Put5)", "komoditas": "Kentang", "luas": 12, "tgl_tanam": "2026-08-19", "umur_min": 105, "umur_max": 130, "tgl_panen": null, "modal": null, "ket": ""}, {"kode": "L4 (Put4)", "komoditas": "Kentang", "luas": null, "tgl_tanam": "2026-08-12", "umur_min": 105, "umur_max": 130, "tgl_panen": null, "modal": null, "ket": "Luas blok kentang belum dirinci"}, {"kode": "L4 (Put4)", "komoditas": "Wortel", "luas": null, "tgl_tanam": "2026-09-05", "umur_min": null, "umur_max": null, "tgl_panen": null, "modal": null, "ket": "Isi umur panen min/maks wortel"}, {"kode": "L6 (Put1)", "komoditas": "Kentang", "luas": 20, "tgl_tanam": "2026-07-30", "umur_min": 105, "umur_max": 130, "tgl_panen": null, "modal": null, "ket": "Blok 1 · masa kelonggaran sewa"}, {"kode": "L6 (Put1)", "komoditas": "Kentang", "luas": 10, "tgl_tanam": "2026-09-30", "umur_min": 105, "umur_max": 130, "tgl_panen": null, "modal": null, "ket": "Blok 2 · masa kelonggaran sewa"}], "riwayat": [{"kode": "L1 (Put2)", "komoditas": "Kentang Besar", "kb": 2445.5, "periode": "Sep'24", "total": 2445.5, "tha": 5.8692, "jual": 33014250.0, "luas_ha": 0.416666666666667}, {"kode": "L1 (Put3)", "komoditas": "Kentang Besar", "kb": 2130.9, "periode": "Mei'25", "total": 3266.23333333333, "tha": 7.83896, "jual": 23929000.0, "luas_ha": 0.416666666666667}, {"kode": "L1 (Put4)", "komoditas": "Kentang Besar", "kb": 4444.0, "periode": "Sep'25", "total": 4670.8, "tha": 11.20992, "jual": 49573600.0, "luas_ha": 0.416666666666667}, {"kode": "L2 (Put1)", "komoditas": "Kentang Besar", "kb": 9451.0, "periode": "Jul'24", "total": 11626.0, "tha": 21.1381818181818, "jual": 89784500.0, "luas_ha": 0.55}, {"kode": "L2 (Put2)", "komoditas": "Tanam Kubis", "kb": 0.0, "periode": null, "total": 0.0, "tha": 0.0, "jual": 0.0, "luas_ha": 0.55}, {"kode": "L2 (Put3)", "komoditas": "Kentang Besar", "kb": 10876.0, "periode": "Nop'26", "total": 13876.0, "tha": 25.2290909090909, "jual": 108760000.0, "luas_ha": 0.55}, {"kode": "L3 (Put2)", "komoditas": "Kentang Besar", "kb": 3131.0, "periode": "Mei'25", "total": 4096.33333333333, "tha": 20.4816666666667, "jual": 30945200.0, "luas_ha": 0.2}, {"kode": "L3 (Put3)", "komoditas": "Tanam Kubis", "kb": 0.0, "periode": "Okt'25", "total": 0.0, "tha": 0.0, "jual": 0.0, "luas_ha": 0.2}, {"kode": "L3 (Put4)", "komoditas": "Kentang Besar", "kb": 3084.0, "periode": "Apr'26", "total": 3393.0, "tha": 16.965, "jual": 45339000.0, "luas_ha": 0.2}, {"kode": "L4 (Put1)", "komoditas": "Kentang Besar", "kb": 10705.0, "periode": "Jul'25", "total": 13382.0, "tha": 28.6757142857143, "jual": 93221700.0, "luas_ha": 0.466666666666667}, {"kode": "L4 (Put2)", "komoditas": "Kentang Besar", "kb": 6080.0, "periode": "Des'25", "total": 7638.0, "tha": 16.3671428571429, "jual": 74831800.0, "luas_ha": 0.466666666666667}, {"kode": "L4 (Put3)", "komoditas": "Kentang Besar", "kb": 7896.0, "periode": "Apr'26", "total": 9096.0, "tha": 19.4914285714286, "jual": 90804000.0, "luas_ha": 0.466666666666667}, {"kode": "L5 (Put1)", "komoditas": "Kentang Besar", "kb": 4443.0, "periode": "Jul'25", "total": 5118.0, "tha": 17.06, "jual": 43958500.0, "luas_ha": 0.3}, {"kode": "L5 (Put2)", "komoditas": "Kentang Besar", "kb": 2716.0, "periode": "Feb'26", "total": 3214.0, "tha": 10.7133333333333, "jual": 36196000.0, "luas_ha": 0.3}, {"kode": "L5 (Put3)", "komoditas": "Kentang Besar", "kb": 1959.0, "periode": "Okt'26", "total": 1959.0, "tha": 6.53, "jual": 17239200.0, "luas_ha": 0.3}, {"kode": "L6 (Put1)", "komoditas": "Kentang Besar", "kb": 0.0, "periode": null, "total": 0.0, "tha": 0.0, "jual": 0.0, "luas_ha": 0.583333333333333}], "tak_terpetakan": []};
+(function(){
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const pd = s => { if(!s) return null; const p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); };
+const fd = d => d ? d.getDate()+' '+BLN[d.getMonth()]+' '+d.getFullYear() : '—';
+const jt = v => { const a = Math.abs(v)/1e6; return (v<0?'−':'') + a.toFixed(1).replace('.',','); };
+const rp = v => (v<0?'−Rp ':'Rp ') + jt(Math.abs(v)) + ' jt';
+const sg = v => (v>0?'+':'') + jt(v);
+const sg2 = v => (v>0?'+':(v<0?'−':'')) + (Math.abs(v)/1e6).toFixed(2).replace('.',',');
+const pct = v => v==null ? '—' : (v<0?'−':'') + Math.round(Math.abs(v)*100) + '%';
+const kg = v => v ? Math.round(v).toLocaleString('id-ID') : '—';
+const n1 = v => v ? v.toFixed(1).replace('.',',') : '—';
+const cls = v => v==null ? '' : (v<0 ? 'neg' : 'pos');
+
+const M = D.musim;
+const selesai = M.filter(m => m.status === 'selesai');
+const berjalan = M.filter(m => m.status === 'berjalan');
+const L = Object.fromEntries(D.lahan.map(l => [l.kode, l]));
+const today = new Date(); today.setHours(0,0,0,0);
+
+$('#asof').textContent = 'Transaksi terakhir ' + fd(pd(D.tgl_transaksi_terakhir)) + ' · diperbarui ' + fd(pd(D.dibuat));
+document.title = 'Laporan Juragan Kentang ' + fd(pd(D.dibuat));
+
+/* ---------------- 1. Untung & Rugi ---------------- */
+const tot = selesai.reduce((a,m)=>({jual:a.jual+m.jual_total, laba:a.laba+m.laba, bagi:a.bagi+m.bagi, tahan:a.tahan+m.ditahan}), {jual:0,laba:0,bagi:0,tahan:0});
+const best = selesai.slice().sort((a,b)=>b.laba-a.laba)[0];
+const rugi = selesai.filter(m=>m.laba<0);
+let pickedMusim = best ? best.kode : null;
+
+function detailHTML(m){
+  const maxK = Math.max(...m.kel, 1);
+  const pb = m.laba>0 ? Math.max(0, Math.min(100, m.bagi/m.laba*100)) : 0;
+  const sewaTxt = m.sewa_bersama ? 'Rp 0 (modal bersama)' : (m.tanpa_sewa ? 'Rp 0 (masa kelonggaran)' : rp(m.sewa_musim));
+  const luas = m.luas ? m.luas + ' keranjang · ' : '';
+  return `<div class="dtitle"><h2>${esc(m.kode)} · ${esc(m.komoditas||'')}</h2><div class="small">${luas}${m.sewa_bersama?'sewa dibayar modal bersama':(m.tanpa_sewa?'masa kelonggaran sewa':'sewa '+rp(m.sewa_musim)+' per musim')}</div></div>
+  <div class="two">
+   <div><h3>A. Penjualan hasil</h3>
+    ${m.jual.map(j=>`<div class="line"><span>${esc(j.label)}${j.tgl?' <span class="small">('+fd(pd(j.tgl))+')</span>':''}</span><span>${rp(j.nilai)}</span></div>`).join('')}
+    <div class="line tot"><span>Total penjualan</span><span>${rp(m.jual_total)}</span></div>
+    ${m.jual_sementara?`<div class="alert">${esc(m.jual_sementara)}</div>`:''}
+   </div>
+   <div><h3>B. Biaya keluar per kelompok</h3>
+    ${m.kel.map((v,i)=>`<div class="kel" style="padding:5px 0"><span>${i+1}. ${esc(D.grup[i+1])}</span><span class="track"><i style="width:${Math.round(v/maxK*100)}%"></i></span><span style="text-align:right">${jt(v)}</span></div>`).join('')}
+    <div class="line tot"><span>Total biaya keluar</span><span>${rp(m.biaya)}</span></div>
+   </div>
+  </div>
+  <div class="two" style="border-top:1px solid var(--line);padding-top:12px">
+   <div><h3>Hitungan laba</h3>
+    <div class="line"><span>A. Penjualan hasil</span><span>${rp(m.jual_total)}</span></div>
+    <div class="line"><span>− Modal Ms. Berikutnya <span class="chip" style="background:${m.modal_manual?'#E8EEF8':'var(--soft)'}">${m.modal_manual?'manual':'otomatis'}</span></span><span>${rp(m.modal)}</span></div>
+    <div class="line"><span>− Sewa lahan per musim</span><span>${sewaTxt}</span></div>
+    <div class="line tot" style="border-top:2px solid var(--ink);padding-top:8px"><span>Laba</span><span class="labaBig" style="color:${m.laba<0?'var(--neg)':'var(--acc)'}">${rp(m.laba)}</span></div>
+    <p class="note">${m.modal_manual?'Modal Ms. Berikutnya diisi manual di sheet Musim Tanam ('+(m.modal<m.biaya?'lebih kecil ':'lebih besar ')+rp(Math.abs(m.biaya-m.modal))+' dari biaya keluar).':'Modal Ms. Berikutnya otomatis = biaya keluar musim ini.'}</p>
+   </div>
+   <div><h3>Pembagian laba</h3>
+    <div class="split" role="img" aria-label="Dibagikan ${rp(m.bagi)}, ditahan ${rp(m.ditahan)}"><i style="width:${pb}%;background:var(--acc)"></i><i style="flex:1;background:#9AA39C"></i></div>
+    <div class="legend" style="margin-top:8px"><span><b style="background:var(--acc)"></b>Dibagikan</span><span><b style="background:#9AA39C"></b>Ditahan</span></div>
+    <div class="line"><span>Dibagikan ke pemodal</span><b>${rp(m.bagi)}</b></div>
+    <div class="line"><span>Ditahan di Kas Besar</span><b>${rp(m.ditahan)}</b></div>
+    ${m.bagi&&m.bagi_dari&&m.bagi_dari.includes('+')?`<p class="note">Pembagian gabungan dari ${esc(m.bagi_dari)}, dibagi sebanding laba masing-masing musim.</p>`:''}
+   </div>
+  </div>`;
+}
+
+function pageLaba(){
+  const rows = selesai.map(m=>`<tr class="${m.kode===pickedMusim?'sel':''}">
+    <td><button class="pick" data-m="${esc(m.kode)}" aria-pressed="${m.kode===pickedMusim}">${esc(m.kode)}</button></td>
+    <td>${esc(m.komoditas||'')}</td><td class="r">${jt(m.jual_total)}${m.jual_sementara?'*':''}</td>
+    <td class="r" style="${m.modal_manual?'font-weight:600':'color:#6B716C;font-style:italic'}">${jt(m.modal)}</td>
+    <td class="r">${m.sewa_bersama?'bersama':jt(m.sewa_musim)}</td>
+    <td class="r ${cls(m.laba)}">${sg(m.laba)}</td><td class="r">${m.bagi?jt(m.bagi):'–'}</td><td class="r">${jt(m.ditahan)}</td></tr>`).join('');
+  const sel = selesai.find(m=>m.kode===pickedMusim);
+  const t = D.toko;
+  return `<div><h1>Untung &amp; rugi per lahan, per musim</h1>
+  <p class="sub"><b style="color:var(--ink)">Laba = Penjualan − Modal Ms. Berikutnya − Sewa per musim.</b> Laba dibagi dua: dibagikan ke pemodal dan ditahan di Kas Besar.</p></div>
+  <div class="banner">Laba tertinggi <b>${esc(best.kode)} ${rp(best.laba)}</b>.${rugi.length?' '+rugi.map(m=>`<b class="n">${esc(m.kode)} rugi ${rp(-m.laba)}</b>`).join(', ')+'.':''} Dari total laba ${rp(tot.laba)}, ${rp(tot.bagi)} sudah dibagikan.</div>
+  <div class="tiles">
+   <div class="card tile"><div class="k">Total laba musim selesai</div><div class="v big">${rp(tot.laba)}</div><div class="s">${selesai.length} musim · penjualan ${rp(tot.jual)}</div></div>
+   <div class="card tile"><div class="k">Laba dibagikan</div><div class="v">${rp(tot.bagi)}</div><div class="s">termasuk fee pengawas</div></div>
+   <div class="card tile"><div class="k">Laba ditahan</div><div class="v">${rp(tot.tahan)}</div><div class="s">sebagian sudah dipakai musim berjalan &amp; Toko Obat · saldo kas ${rp(D.kas.saldo)}</div></div>
+  </div>
+  <div class="card"><div class="dtitle"><h2>Ringkasan per musim (juta rupiah)</h2><span class="small noprint">Ketuk kode musim untuk rinciannya</span></div>
+   <div class="scroll"><table><thead><tr><th>Musim</th><th>Komoditas</th><th class="r">Penjualan</th><th class="r">Modal Ms. Berikutnya</th><th class="r">Sewa/musim</th><th class="r">Laba</th><th class="r">Dibagikan</th><th class="r">Ditahan</th></tr></thead><tbody>${rows}</tbody></table></div>
+   <p class="note">Modal abu-abu miring = otomatis dari biaya keluar; tebal = diisi manual. ${selesai.some(m=>m.jual_sementara)?'* penjualan sementara, belum tercatat di Kas.':''}</p>
+  </div>
+  ${sel?`<div class="card detail screen" id="detail">${detailHTML(sel)}</div>`:''}
+  <div class="print-only">${selesai.map(m=>`<div class="card detail" style="margin-bottom:10px;break-inside:avoid">${detailHTML(m)}</div>`).join('')}</div>
+  <div class="card"><div class="dtitle"><h2>Unit usaha: Toko Obat &amp; Pestisida</h2><span class="small">kode "Toko Obat" di Kas</span></div>
+   <div class="tiles">
+    <div class="tile"><div class="k">Modal belanja obat</div><div class="v">${rp(t.modal)}</div></div>
+    <div class="tile"><div class="k">Penjualan obat</div><div class="v">${rp(t.jual)}</div></div>
+    <div class="tile"><div class="k">Modal masih di stok</div><div class="v">± ${rp(t.modal-t.jual)}</div><div class="s">laba toko dihitung saat stok terjual</div></div>
+   </div></div>
+  <p class="note">Biaya keluar tidak termasuk cicilan sewa ke Abu Dzacky (itu pelunasan pinjaman); sewa dihitung lewat sewa per musim. Sewa L2 dan L3 dibayar modal bersama sehingga tidak dikurangkan. Tidak ditampilkan karena sebagian biayanya sebelum Kas dimulai: ${M.filter(m=>m.status==='diabaikan').map(m=>esc(m.kode)).join(', ')}.</p>`;
+}
+
+/* ---------------- 2. Produktivitas ---------------- */
+let pickedLahan = null;
+function pageProd(){
+  const rank = selesai.filter(m=>m.luas).map(m=>({...m, pk: m.laba/m.luas})).sort((a,b)=>b.pk-a.pk);
+  const maxP = Math.max(...rank.map(r=>r.pk), 0.01), maxN = Math.max(...rank.map(r=>-r.pk), 0.01);
+  const negW = maxN/(maxN+maxP);
+  const top = rank[0], low = rank[rank.length-1];
+  const lahanIds = [...new Set([...D.riwayat.map(r=>r.kode.split(' ')[0]), ...M.map(m=>m.lahan)])].sort((a,b)=>+a.slice(1)-+b.slice(1));
+  if(!pickedLahan) pickedLahan = low ? low.lahan : lahanIds[0];
+  // gabung riwayat produktivitas + musim kas
+  const codes = [...new Set([...D.riwayat.filter(r=>r.kode.startsWith(pickedLahan+' ')).map(r=>r.kode), ...M.filter(m=>m.lahan===pickedLahan).map(m=>m.kode)])]
+    .sort((a,b)=>+a.match(/Put(\d+)/)[1] - +b.match(/Put(\d+)/)[1]);
+  const lrows = codes.map(c=>{
+    const r = D.riwayat.find(x=>x.kode===c) || {}; const m = M.find(x=>x.kode===c) || {};
+    const kom = m.komoditas || (r.komoditas ? (/kentang/i.test(r.komoditas)?'Kentang':r.komoditas.replace('Tanam ','')) : '—');
+    const jual = m.status==='selesai' ? m.jual_total : (r.jual || null);
+    const laba = m.status==='selesai' ? m.laba : null;
+    const st = m.status==='berjalan' ? 'berjalan' : (laba==null ? '—' : sg(laba));
+    return `<tr><td><b>${esc(c.replace(pickedLahan+' ',''))}</b></td><td>${esc(r.periode||'—')}</td><td>${esc(kom)}</td><td class="r">${kg(r.kb)}</td><td class="r">${kg(r.total)}</td><td class="r">${n1(r.tha)}</td><td class="r">${jual?jt(jual):'—'}</td><td class="r ${cls(laba)}">${st}</td><td class="r ${cls(m.roi)}">${m.status==='selesai'?pct(m.roi):'—'}</td></tr>`;
+  }).join('');
+  const Ld = L[pickedLahan] || {};
+  const info = [Ld.luas?Ld.luas+' keranjang':null, Ld.bersama?'sewa dibayar modal bersama':(Ld.sewa_per_musim?'sewa '+rp(Ld.sewa_per_musim)+' per musim':null), Ld.musim_per_tahun?Ld.musim_per_tahun+' musim/tahun':null, Ld.sd?'kontrak s.d. '+Ld.sd:null, Ld.catatan||null].filter(Boolean).join(' · ');
+  // tren ton/ha L dengan penurunan
+  const tren = lahanIds.map(id=>D.riwayat.filter(r=>r.kode.startsWith(id+' ')&&r.tha)).filter(a=>a.length>=3).map(a=>a.slice(-3)).filter(a=>a[0].tha>a[1].tha&&a[1].tha>a[2].tha);
+  return `<div><h1>Lahan mana yang bagus, mana yang perlu dievaluasi?</h1><p class="sub">Laba dibagi luas (keranjang) supaya lahan besar dan kecil adil dibandingkan. ROI = laba ÷ (biaya keluar + sewa per musim).</p></div>
+  <div class="banner"><b>${esc(top.lahan)} paling efisien</b> (${esc(top.kode)}: ${sg2(top.pk)} jt per keranjang, ROI ${pct(top.roi)}).${low&&low.pk<0?` <b class="n">${esc(low.lahan)} perlu dievaluasi</b> (${esc(low.kode)} rugi ${sg2(-low.pk).replace('+','')} jt per keranjang).`:''}${tren.map(a=>` Hasil ${esc(a[0].kode.split(' ')[0])} turun 3 musim berturut-turut: ${a.map(x=>n1(x.tha)).join(' → ')} ton/ha.`).join('')}</div>
+  <div class="tiles" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+   <div class="card tile" style="grid-column:auto"><div class="k">Terbaik musim terakhir</div><div class="v" style="color:var(--acc)">${esc(top.lahan)} · ${sg2(top.pk)} jt</div><div class="s">per keranjang · ${esc(top.kode)} · ROI ${pct(top.roi)}</div></div>
+   <div class="card tile"><div class="k">Terlemah musim terakhir</div><div class="v" style="color:${low.pk<0?'var(--neg)':'var(--ink)'}">${esc(low.lahan)} · ${sg2(low.pk)} jt</div><div class="s">per keranjang · ${esc(low.kode)} · ROI ${pct(low.roi)}</div></div>
+  </div>
+  <div class="card"><h2>Peringkat: laba per keranjang &amp; ROI</h2>
+   <div class="dv">${rank.map(r=>`<div class="dvr" title="${esc(r.kode)}: laba ${rp(r.laba)}, ${r.luas} keranjang, ROI ${pct(r.roi)}">
+     <div class="lab">${esc(r.kode)}<br><span class="small">${r.luas} kr · ${esc(r.komoditas||'')}</span></div>
+     <div class="neg" style="flex-basis:auto">${r.pk<0?`<div class="bar" style="width:${Math.round(-r.pk/maxN*100)}%"></div>`:''}</div>
+     <div class="pos">${r.pk>0?`<div class="bar" style="width:${Math.round(r.pk/maxP*100)}%"></div>`:''}</div>
+     <div class="val" style="${r.pk<0?'color:var(--neg)':''}"><b>${sg2(r.pk)} jt/kr</b> · ROI <b>${pct(r.roi)}</b></div></div>`).join('')}</div>
+   <p class="note">ROI L2 dan L3 tinggi karena sewanya dibayar modal bersama dan tidak dibebankan per musim. Lahan tanpa musim selesai belum masuk peringkat.</p>
+  </div>
+  <div class="card"><div class="dtitle"><h2>Riwayat panen per lahan</h2></div>
+   <div class="pills" role="group" aria-label="Pilih lahan">${lahanIds.map(id=>`<button type="button" data-l="${id}" aria-pressed="${id===pickedLahan}">${id}</button>`).join('')}</div>
+   <div class="small">${esc(pickedLahan)} · ${esc(info)}</div>
+   <div class="scroll"><table><thead><tr><th>Musim</th><th>Periode</th><th>Komoditas</th><th class="r">Kentang besar (kg)</th><th class="r">Total (kg)</th><th class="r">Ton/ha</th><th class="r">Penjualan (jt)</th><th class="r">Laba (jt)</th><th class="r">ROI</th></tr></thead><tbody>${lrows||'<tr><td colspan="9">Belum ada data.</td></tr>'}</tbody></table></div>
+   <p class="note">Laba dan ROI hanya untuk musim yang biayanya lengkap di Kas (mulai Feb 2026). Data kg dan ton/ha dari sheet Produktivitas.</p>
+  </div>
+  <div class="print-only"><div class="card"><h2>Riwayat panen semua lahan</h2><table><thead><tr><th>Musim</th><th>Periode</th><th>Komoditas</th><th class="r">Total (kg)</th><th class="r">Ton/ha</th><th class="r">Penjualan (jt)</th></tr></thead><tbody>${D.riwayat.map(r=>`<tr><td>${esc(r.kode)}</td><td>${esc(r.periode||'')}</td><td>${esc(r.komoditas)}</td><td class="r">${kg(r.total)}</td><td class="r">${n1(r.tha)}</td><td class="r">${r.jual?jt(r.jual):'—'}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+/* ---------------- 3. Sewa & Permodalan ---------------- */
+function pageSewa(){
+  const P = D.pinjaman;
+  const sisaT = P.talangan - P.talangan_dicicil, sisaH = P.hutang - P.hutang_dicicil, sisa = sisaT + sisaH;
+  const kembali = P.talangan_dicicil + P.hutang_dicicil, totP = P.talangan + P.hutang;
+  const maxN = Math.max(...D.lahan.map(l=>l.nilai_sewa));
+  const nol = D.lahan.filter(l=>!l.bersama && l.dicicil===0);
+  const now = new Date();
+  const bentar = D.lahan.filter(l=>{ if(!l.sd) return false; const m = l.sd.match(/([A-Za-z]+)\s*(\d{4})/); if(!m) return false; const bi = BLN.findIndex(b=>m[1].toLowerCase().startsWith(b.toLowerCase().slice(0,3))); const d = new Date(+m[2], bi<0?0:bi, 1); return (d-now)/864e5 < 365 && d>now; });
+  // laba diterima per pemodal
+  const terima = D.pemodal.map(p=>({...p, laba:0, fee:0}));
+  D.bagi_tx.forEach(b=>{
+    if(/pengawas/i.test(b.uraian)){ const nm=(b.uraian.match(/\(([^)]+)\)/)||[])[1]||''; const w=nm.toLowerCase().replace(/^abu\s+/,'').slice(0,3); const p=terima.find(x=>x.nama.toLowerCase().replace(/^abu\s+/,'').slice(0,3)===w); if(p) p.fee+=b.nilai; }
+    else terima.forEach(p=>p.laba+=b.nilai/terima.length);
+  });
+  return `<div><h1>Kewajiban kita masih berapa?</h1><p class="sub">Talangan sewa Abu Dzacky dicatat sebagai pinjaman usaha tanpa imbalan, dikembalikan lewat cicilan saat tanam atau panen.</p></div>
+  <div class="banner">Sisa pinjaman ke Abu Dzacky <b>${rp(sisa)}</b>.${nol.length?` <b class="n">${rp(nol.reduce((a,l)=>a+l.nilai_sewa,0))} untuk ${nol.map(l=>l.kode).join(', ')} belum dicicil sama sekali.</b>`:''}${bentar.map(l=>` Kontrak ${l.kode} berakhir ${esc(l.sd)}, sisa cicilan ${rp(l.nilai_sewa-l.dicicil)}.`).join('')}</div>
+  <div class="tiles">
+   <div class="card tile"><div class="k">Sisa pinjaman Abu Dzacky</div><div class="v big" style="color:var(--ink)">${rp(sisa)}</div><div class="s">${rp(sisaT)} talangan sewa + ${rp(sisaH)} hutang pemilik lahan ${esc(D.hutang.map(h=>h.lahan).join(', '))}</div></div>
+   <div class="card tile"><div class="k">Sudah dikembalikan</div><div class="v" style="color:var(--acc)">${rp(kembali)}</div><div class="s">dari ${rp(totP)} (${Math.round(kembali/totP*100)}%)</div></div>
+   <div class="card tile"><div class="k">Modal pemodal</div><div class="v">${rp(D.modal_bersama)}</div><div class="s">${D.pemodal.length} × ${rp(D.modal_bersama/D.pemodal.length)} (sewa lahan bersama), ikut bagi hasil</div></div>
+  </div>
+  <div class="card"><div class="dtitle"><h2>Sewa per lahan</h2><div class="legend"><span><b style="background:var(--acc)"></b>Sudah dibayar</span><span><b style="background:#E4D9C4"></b>Sisa</span></div></div>
+   ${D.lahan.map(l=>{ const s=l.nilai_sewa-l.dicicil; return `<div class="sewa"><div class="id">${l.kode}</div><div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+    <div class="sbar" style="width:${Math.max(8,l.nilai_sewa/maxN*100)}%" role="img" aria-label="${l.kode}: dibayar ${rp(l.dicicil)} dari ${rp(l.nilai_sewa)}"><i style="width:${l.nilai_sewa?l.dicicil/l.nilai_sewa*100:0}%"></i></div>
+    <div class="small" style="color:var(--ink)">Nilai ${jt(l.nilai_sewa)} jt · dibayar ${jt(l.dicicil)} · <b>sisa ${jt(s)}</b>${s===0?' (lunas)':''}</div>
+    <div class="small">${esc(l.kontrak)} · ${l.bersama?'dibayar modal bersama, tidak dibebankan per musim':(l.sewa_per_musim?rp(l.sewa_per_musim)+' per musim ('+l.musim_per_tahun+'×/thn)':'')}${l.catatan?' · '+esc(l.catatan):''}</div></div></div>`; }).join('')}
+  </div>
+  <div class="card"><h2>Pemodal</h2><div class="scroll"><table><thead><tr><th>Pemodal</th><th class="r">Modal</th><th class="r">Porsi</th><th class="r">Laba diterima</th><th class="r">Fee pengawas</th><th>Catatan</th></tr></thead><tbody>
+   ${terima.map(p=>`<tr><td><b>${esc(p.nama)}</b> <span class="small">(${esc(p.alias)})</span></td><td class="r">${jt(p.modal)} jt</td><td class="r">${Math.round(100/terima.length)}%</td><td class="r">${jt(p.laba)} jt</td><td class="r">${p.fee?jt(p.fee)+' jt':'–'}</td><td class="small">${p.modal_catatan>p.modal?'+ pinjaman ke usaha '+rp(totP)+', sisa '+rp(sisa):''}</td></tr>`).join('')}
+   </tbody></table></div></div>
+  <div class="card"><h2>Cicilan ke Abu Dzacky yang tercatat di Kas</h2><div class="scroll"><table><thead><tr><th>Tanggal</th><th>Musim</th><th class="r">Nilai</th></tr></thead><tbody>
+   ${D.cicilan_tx.map(c=>`<tr><td>${fd(pd(c.tgl))}</td><td><b>${esc(c.musim)}</b></td><td class="r">${rp(c.nilai)}</td></tr>`).join('')}
+   </tbody></table></div><p class="note">Cicilan sebelum Feb 2026 hanya tercatat nilainya di sheet Catatan Usaha, tanpa tanggal.</p></div>`;
+}
+
+/* ---------------- 4. Umur Tanam ---------------- */
+function pageUmur(){
+  const items = D.tanam.map(t=>{
+    const d = pd(t.tgl_tanam); const lo=t.umur_min, hi=t.umur_max;
+    const out = {...t, d};
+    if(!d){ return {...out, st:'Tgl tanam belum diisi', sk:-9999, bg:'var(--negbg)', fg:'#8A3410'}; }
+    const umur = Math.floor((today-d)/864e5)+1; out.umur=umur;
+    if(t.tgl_panen){ const p=pd(t.tgl_panen); return {...out, done:true, umurPanen: Math.floor((p-d)/864e5)+1}; }
+    if(!lo||!hi) return {...out, st:'Masa panen belum ditentukan', sk:5000, bg:'var(--soft)', fg:'var(--muted)', nowin:true};
+    out.awal=new Date(d.getTime()+(lo-1)*864e5); out.akhir=new Date(d.getTime()+(hi-1)*864e5);
+    out.keA=lo-umur; out.keZ=hi-umur; out.pct=Math.max(0,Math.min(100,umur/hi*100)); out.zone=(lo/hi*100);
+    if(umur<1) return {...out, st:'Belum tanam', sk:9999, bg:'var(--soft)', fg:'var(--muted)', fill:'#C9C6BB', sisa:'tanam '+(1-umur)+' hari lagi'};
+    if(umur>hi) return {...out, st:'Lewat batas '+hi+' hari', sk:out.keA, bg:'var(--negbg)', fg:'#8A3410', fill:'var(--neg)', sisa:'lewat '+(-out.keZ)+' hari dari batas maks'};
+    if(umur>=lo) return {...out, st:'Masa panen', sk:out.keA, bg:'var(--warnbg)', fg:'var(--warn)', fill:'#C98A00', inWin:true, sisa: out.keZ===0?'hari ini batas terakhir':'paling lambat '+out.keZ+' hari lagi'};
+    if(out.keA<=14) return {...out, st:'Siapkan panen', sk:out.keA, bg:'var(--warnbg)', fg:'var(--warn)', fill:'#C98A00', sisa: out.keA+' hari lagi masuk masa panen'};
+    return {...out, st:'Masa tumbuh', sk:out.keA, bg:'var(--okbg)', fg:'#1E5A36', fill:'var(--acc)', sisa: out.keA+' hari lagi masuk masa panen'};
+  });
+  const aktif = items.filter(i=>!i.done).sort((a,b)=>a.sk-b.sk);
+  const done = items.filter(i=>i.done);
+  const kosong = aktif.filter(i=>!i.d).length;
+  const near = aktif.filter(i=>i.awal && i.umur>=1 && i.umur<=i.umur_max)[0];
+  const masa = aktif.filter(i=>i.inWin).map(i=>i.kode+(aktif.filter(x=>x.kode===i.kode).length>1?' '+i.komoditas+(i.luas?' '+i.luas+' kr':''):''));
+  const siap = aktif.filter(i=>i.st==='Siapkan panen').map(i=>i.kode);
+  const lbl = i => i.kode + (aktif.concat(done).filter(x=>x.kode===i.kode).length>1 ? ' · '+i.komoditas+(i.luas?' '+i.luas+' kr':'') : '');
+  return `<div><h1>Kapan panen berikutnya?</h1><p class="sub">Umur dihitung otomatis dari tanggal tanam di sheet Musim Tanam (hari tanam = hari ke-1). Hari ini ${fd(today)}.</p></div>
+  <div class="banner">${kosong?`<b class="n">${kosong} blok belum diisi tanggal tanamnya.</b> `:''}${masa.length?'Sedang masa panen: <b>'+esc(masa.join(', '))+'</b>. ':'Belum ada blok di masa panen. '}${siap.length?'Bersiap panen dalam 14 hari: <b>'+esc(siap.join(', '))+'</b>.':''}</div>
+  <div class="card tile"><div class="k">Panen terdekat</div><div class="v big">${near?esc(lbl(near))+' · '+(near.inWin?'sedang masa panen':'mulai '+fd(near.awal)):'Belum bisa dihitung'}</div><div class="s">${near?esc(near.sisa)+' · masa panen '+fd(near.awal)+' – '+fd(near.akhir)+' · umur '+near.umur+' HST':'Isi tanggal tanam di sheet Musim Tanam.'}</div></div>
+  <div class="grid2">${aktif.map(i=>`<div class="card umur">
+    <div class="top"><div><h2>${esc(lbl(i))}</h2><div class="small">${esc(i.komoditas)}${i.luas?' · '+i.luas+' keranjang':''}${i.d?' · tanam '+fd(i.d):''}</div></div><span class="chip" style="background:${i.bg};color:${i.fg}">${esc(i.st)}</span></div>
+    ${i.awal?`<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span class="hst">${Math.max(i.umur,0)} HST</span><span class="small" style="text-align:right">${esc(i.sisa)}</span></div>
+     <div class="ubar" role="img" aria-label="Umur ${i.umur} hari, masa panen ${i.umur_min}-${i.umur_max} hari"><span class="zone" style="left:${i.zone}%"></span><span class="fill" style="width:${i.pct}%;background:${i.fill}"></span></div>
+     <div style="display:flex;justify-content:space-between" class="small"><span>0</span><span>masa panen ${i.umur_min}–${i.umur_max} HST</span></div>
+     <div>Masa panen: <b>${fd(i.awal)} – ${fd(i.akhir)}</b></div>`
+     : (i.d?`<div class="alert" style="background:var(--soft);color:var(--ink)">Umur ${i.umur} hari. Masa panen ${esc((i.komoditas||'').toLowerCase())} belum ditentukan di sheet Musim Tanam.</div>`:`<div class="alert" style="background:var(--negbg);color:#8A3410">Tanggal tanam belum diisi di sheet Musim Tanam.</div>`)}
+    ${i.ket?`<div class="small">${esc(i.ket)}</div>`:''}
+  </div>`).join('')}</div>
+  ${done.length?`<div class="card"><h2>Sudah panen</h2>${done.map(i=>`<div class="line"><b>${esc(lbl(i))}</b><span class="small">panen ${fd(pd(i.tgl_panen))} · umur ${i.umurPanen} hari${i.ket?' · '+esc(i.ket):''}</span></div>`).join('')}</div>`:''}`;
+}
+
+/* ---------------- render ---------------- */
+const PAGES = {laba: pageLaba, prod: pageProd, sewa: pageSewa, umur: pageUmur};
+let cur = (location.hash||'').slice(1); if(!PAGES[cur]) cur='laba';
+function render(all){
+  $('#app').innerHTML = Object.keys(PAGES).map(k=>`<section class="page${k===cur?' on':''}" id="p-${k}" role="tabpanel">${PAGES[k]()}</section>`).join('');
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.p===cur));
+}
+render();
+document.querySelector('nav.tabs').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; cur=b.dataset.p; history.replaceState(null,'','#'+cur); render(); window.scrollTo({top:0}); });
+$('#app').addEventListener('click', e=>{
+  const pm = e.target.closest('[data-m]'); if(pm){ pickedMusim = pm.dataset.m; render(); const d=$('#detail'); if(d) d.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  const pl = e.target.closest('[data-l]'); if(pl){ pickedLahan = pl.dataset.l; render(); }
+});
+$('#pdfBtn').addEventListener('click', ()=>window.print());
+(function(){
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  let dismissed = false; try { dismissed = localStorage.getItem('jk_install_tutup') === '1'; } catch(e) {}
+  if (standalone || dismissed) return;
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const box = $('#installHint'), txt = $('#installText'), btn = $('#installBtn');
+  txt.textContent = ios ? 'Di Safari: ketuk tombol Bagikan (kotak dengan panah ke atas), lalu pilih "Tambah ke Layar Utama".'
+                        : 'Di Chrome: ketuk menu ⋮ di kanan atas, lalu pilih "Tambahkan ke layar utama" atau "Instal aplikasi".';
+  box.style.display = 'flex';
+  let ev = null;
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); ev = e; btn.style.display = 'inline-flex'; });
+  btn.addEventListener('click', async () => { if (!ev) return; ev.prompt(); await ev.userChoice; box.style.display = 'none'; });
+  $('#installClose').addEventListener('click', () => { box.style.display = 'none'; try { localStorage.setItem('jk_install_tutup', '1'); } catch(e) {} });
+})();
+$('#foot').innerHTML = 'Sumber: '+esc(D.sumber)+' (sheet '+esc(D.kas.sheets.join(', '))+', Musim Tanam, Catatan Usaha, Produktivitas). Angka dalam rupiah; jt = juta.';
+})();
+</script>
+</body>
+</html>

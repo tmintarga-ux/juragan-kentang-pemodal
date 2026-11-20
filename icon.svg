@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#23683F"/>
+  <circle cx="256" cy="256" r="196" fill="#2E7D4F"/>
+  <!-- tunas daun -->
+  <path d="M262 150 C 262 118, 250 96, 232 84" fill="none" stroke="#9BD48A" stroke-width="12" stroke-linecap="round"/>
+  <path d="M248 104 C 214 84, 182 92, 168 112 C 196 124, 226 120, 248 104 Z" fill="#9BD48A"/>
+  <path d="M258 116 C 284 86, 318 84, 338 98 C 318 124, 286 130, 258 116 Z" fill="#B9E3A8"/>
+  <!-- kentang -->
+  <path d="M150 210 C 168 152, 252 134, 318 150 C 384 166, 410 228, 398 286 C 386 346, 330 392, 256 394 C 182 396, 124 356, 116 300 C 110 262, 134 236, 150 210 Z" fill="#D9A566"/>
+  <path d="M398 286 C 386 346, 330 392, 256 394 C 182 396, 124 356, 116 300 C 150 352, 214 372, 268 366 C 330 360, 378 330, 398 286 Z" fill="#B88447"/>
+  <ellipse cx="214" cy="196" rx="44" ry="20" fill="#EBC48F" transform="rotate(-14 214 196)"/>
+  <!-- mata kentang -->
+  <g fill="#8A5A2B">
+    <ellipse cx="196" cy="262" rx="9" ry="6" transform="rotate(-20 196 262)"/>
+    <ellipse cx="288" cy="220" rx="8" ry="5" transform="rotate(15 288 220)"/>
+    <ellipse cx="330" cy="300" rx="9" ry="6" transform="rotate(25 330 300)"/>
+    <ellipse cx="240" cy="326" rx="7" ry="5"/>
+    <ellipse cx="350" cy="236" rx="6" ry="4" transform="rotate(30 350 236)"/>
+    <ellipse cx="160" cy="306" rx="6" ry="4" transform="rotate(-30 160 306)"/>
+  </g>
+</svg>
