@@ -235,7 +235,7 @@ function pageLaba(){
   <div class="tiles">
    <div class="card tile"><div class="k">Total laba musim selesai</div><div class="v big">${rp(tot.laba)}</div><div class="s">${selesai.length} musim · penjualan ${rp(tot.jual)}</div></div>
    <div class="card tile"><div class="k">Laba dibagikan</div><div class="v">${rp(tot.bagi)}</div><div class="s">termasuk fee pengawas</div></div>
-   <div class="card tile"><div class="k">Laba ditahan</div><div class="v">${rp(tot.tahan)}</div><div class="s">sebagian sudah dipakai musim berjalan &amp; Toko Obat · saldo kas ${rp(D.kas.saldo)}</div></div>
+   <div class="card tile"><div class="k">Laba ditahan</div><div class="v">${rp(tot.tahan)}</div><div class="s">dipakai sebagai modal musim berjalan dan lahan baru (mis. L8) serta Toko Obat · saldo kas ${rp(D.kas.saldo)}</div></div>
   </div>
   <div class="card"><div class="dtitle"><h2>Ringkasan per musim (juta rupiah)</h2><span class="small noprint">Ketuk kode musim untuk rinciannya</span></div>
    <div class="scroll"><table><thead><tr><th>Musim</th><th>Komoditas</th><th class="r">Penjualan</th><th class="r">Modal Ms. Berikutnya</th><th class="r">Sewa/musim</th><th class="r">Laba</th><th class="r">Dibagikan</th><th class="r">Ditahan</th></tr></thead><tbody>${rows}</tbody></table></div>
